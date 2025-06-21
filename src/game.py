@@ -11,7 +11,8 @@ class Game:
         self.is_running = True
         self.board = Board()
         self.current_tetromino = None
-        self.next_tetromino = self.generate_random_tetromino()
+        # Initialize a queue of 2 next tetrominoes
+        self.next_tetrominoes = [self.generate_random_tetromino() for _ in range(2)]
         self.spawn_new_tetromino()
         self.flash_timer = 0  # Add this line
 
@@ -22,10 +23,10 @@ class Game:
         return Tetromino(shape, position, shape_name=shape_name)
 
     def spawn_new_tetromino(self):
-        # Use the next tetromino as the current one
-        self.current_tetromino = self.next_tetromino
-        # Generate a new next tetromino
-        self.next_tetromino = self.generate_random_tetromino()
+        # Use the first in the queue as current
+        self.current_tetromino = self.next_tetrominoes.pop(0)
+        # Add a new random tetromino to the queue
+        self.next_tetrominoes.append(self.generate_random_tetromino())
         # Check for immediate collision (game over)
         shape_matrix = self.current_tetromino.get_shape()
         x, y = self.current_tetromino.position
