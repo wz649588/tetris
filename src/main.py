@@ -113,21 +113,23 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
     level_text = font.render(f"Level: {game.level}", True, (255, 255, 255))
     screen.blit(level_text, (left_margin + 200, 10))
 
-    # Draw next tetromino preview
+    # Draw next tetromino previews
     preview_x = left_margin + CELL_SIZE * game.board.width + 40
     preview_y = TOP_MARGIN + 40
     font_small = pygame.font.SysFont(None, 24)
     next_text = font_small.render("Next:", True, (255, 255, 255))
     screen.blit(next_text, (preview_x, preview_y - 30))
-    next_shape = game.next_tetromino.get_shape()
-    for i, row in enumerate(next_shape):
-        for j, cell in enumerate(row):
-            if cell:
-                pygame.draw.rect(
-                    screen,
-                    (200, 255, 200),
-                    (preview_x + j * CELL_SIZE, preview_y + i * CELL_SIZE, CELL_SIZE - 2, CELL_SIZE - 2)
-                )
+
+    for idx, tetromino in enumerate(game.next_tetrominoes):
+        next_shape = tetromino.get_shape()
+        for i, row in enumerate(next_shape):
+            for j, cell in enumerate(row):
+                if cell:
+                    pygame.draw.rect(
+                        screen,
+                        (200, 255, 200),
+                        (preview_x + j * CELL_SIZE, preview_y + idx * 4 * CELL_SIZE + i * CELL_SIZE, CELL_SIZE - 2, CELL_SIZE - 2)
+                    )
     # Flash effect for Tetris
     if getattr(game, "flash_timer", 0) > 0:
         overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
