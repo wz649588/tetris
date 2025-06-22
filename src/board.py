@@ -4,22 +4,11 @@ class Board:
         self.height = height
         self.board = [[0 for _ in range(width)] for _ in range(height)]
 
-    def draw(self, current_tetromino=None):
-        display = [row[:] for row in self.board]
-        if current_tetromino:
-            shape = current_tetromino.get_shape()
-            x, y = current_tetromino.position
-            for i, row in enumerate(shape):
-                for j, cell in enumerate(row):
-                    if cell:
-                        xi, yj = x + i, y + j
-                        if 0 <= xi < self.height and 0 <= yj < self.width:
-                            display[xi][yj] = 2  # Use 2 for active tetromino
-        for row in display:
-            print(''.join(['#' if cell == 1 else ('*' if cell == 2 else '.') for cell in row]))
-        print('-' * self.width)
-
     def clear_lines(self):
+        """
+        Remove all filled lines from the board, add empty lines at the top,
+        and return the number of lines cleared.
+        """
         new_board = [row for row in self.board if not all(row)]
         lines_cleared = self.height - len(new_board)
         for _ in range(lines_cleared):
@@ -28,4 +17,7 @@ class Board:
         return lines_cleared
 
     def is_full(self):
+        """
+        Return True if the top row has any filled cells (game over condition).
+        """
         return any(self.board[0])

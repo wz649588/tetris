@@ -1,4 +1,28 @@
-print("Welcome to Tetris!")
+"""
+main.py
+
+Entry point for the graphical Tetris game using pygame.
+
+Features:
+- Fullscreen graphical UI with centered board
+- Smooth keyboard controls for movement and rotation
+- Score and level display at the top
+- Preview of the next two tetrominoes
+- Increasing speed as levels progress
+- Flash effect when clearing four lines (Tetris)
+- Game over detection
+
+Controls:
+- Left/Right Arrow: Move tetromino left/right
+- Down Arrow: Soft drop (move down faster)
+- Up Arrow: Rotate tetromino
+- Q: Quit the game
+
+Requires:
+- Python 3.12
+- pygame
+"""
+
 import pygame
 from game import Game
 
@@ -7,6 +31,10 @@ BOARD_WIDTH = 10
 BOARD_HEIGHT = 20
 
 def main():
+    """
+    Main game loop for the graphical Tetris game.
+    Handles initialization, input, game logic, and rendering.
+    """
     pygame.init()
     info = pygame.display.Info()
     screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.FULLSCREEN)
@@ -18,6 +46,7 @@ def main():
     TOP_MARGIN = 40
     left_margin = (info.current_w - CELL_SIZE * BOARD_WIDTH) // 2
 
+    # Movement and drop counters/delays
     move_down_counter = 0
     move_side_counter = 0
     side_delay = 2
@@ -28,11 +57,13 @@ def main():
     auto_drop_counter = 0
 
     while game.is_running:
+        # Handle events (quit, rotation, quit key)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game.is_running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
+                    # Rotate tetromino, revert if invalid
                     old_rotation = game.current_tetromino.rotation
                     game.current_tetromino.rotate()
                     if not game.can_move(0, 0):
@@ -40,11 +71,13 @@ def main():
                 elif event.key == pygame.K_q:
                     game.is_running = False
 
+        # Handle continuous key presses for movement
         keys = pygame.key.get_pressed()
         move_side_counter += 1
         move_down_counter += 1
         auto_drop_counter += 1
 
+        # Move left/right with repeat delay
         if keys[pygame.K_LEFT] and move_side_counter >= side_delay:
             if game.can_move(0, -1):
                 game.current_tetromino.move(0, -1)
@@ -54,7 +87,7 @@ def main():
                 game.current_tetromino.move(0, 1)
             move_side_counter = 0
 
-        # Soft drop (when holding down)
+        # Soft drop (down arrow)
         if keys[pygame.K_DOWN] and move_down_counter >= down_delay:
             if game.can_move(1, 0):
                 game.current_tetromino.move(1, 0)
@@ -68,19 +101,30 @@ def main():
                 game.place_tetromino()
             auto_drop_counter = 0
 
-        # Update auto drop delay based on level
+        # Increase speed as level increases
         auto_drop_delay = max(base_auto_drop_delay - (game.level - 1) * 4, min_auto_drop_delay)
 
+        # Decrement flash timer for Tetris effect
         if game.flash_timer > 0:
             game.flash_timer -= 1
 
+        # Draw everything
         draw_board(screen, game, left_margin, TOP_MARGIN)
         pygame.display.flip()
-        clock.tick(15)  # FPS
+        clock.tick(15)  # Limit FPS
 
     pygame.quit()
 
 def draw_board(screen, game, left_margin, TOP_MARGIN):
+    """
+    Draws the current game state: board, active tetromino, score, level, next pieces, and flash effect.
+
+    Args:
+        screen: The pygame display surface.
+        game: The Game instance containing all game state.
+        left_margin: Pixels to offset the board from the left (for centering).
+        TOP_MARGIN: Pixels to offset the board from the top.
+    """
     colors = {
         0: (30, 30, 30),   # Empty
         1: (100, 200, 255),# Placed
@@ -88,6 +132,7 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
     }
     screen.fill((0, 0, 0))
     display = [row[:] for row in game.board.board]
+    # Overlay the active tetromino
     if game.current_tetromino:
         shape = game.current_tetromino.get_shape()
         x, y = game.current_tetromino.position
@@ -97,6 +142,7 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
                     xi, yj = x + i, y + j
                     if 0 <= xi < game.board.height and 0 <= yj < game.board.width:
                         display[xi][yj] = 2
+    # Draw the board cells
     for i, row in enumerate(display):
         for j, cell in enumerate(row):
             pygame.draw.rect(
