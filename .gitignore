@@ -1,7 +1,12 @@
-# Ignore PyInstaller build and dist folders
-build/
-dist/
+# Ignore Python cache and build artifacts
 __pycache__/
 *.pyc
 *.pyo
-*.spec
+
+# Ignore setuptools/packaging metadata
+*.egg-info/
+*.tetris.egg-info/
+
+# Ignore PyInstaller build and dist folders
+build/
+dist/

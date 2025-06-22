@@ -41,8 +41,8 @@ Example:
 """
 
 import random
-from tetromino import TETROMINO_SHAPES, Tetromino
-from board import Board
+from tetris.tetromino import TETROMINO_SHAPES, Tetromino
+from tetris.board import Board
 
 class Game:
     def __init__(self):

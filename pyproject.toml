@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tetris"
+version = "0.1.0"
+description = "A graphical Tetris game in Python"
+requires-python = ">=3.12"
+dependencies = [
+    "pygame"
+]

@@ -24,7 +24,7 @@ Requires:
 """
 
 import pygame
-from game import Game
+from tetris.game import Game
 
 CELL_SIZE = 30
 BOARD_WIDTH = 10
