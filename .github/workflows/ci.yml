@@ -19,7 +19,7 @@ jobs:
       - name: Install dev dependencies
         run: pip install -r requirements-dev.txt
       - name: Install tetris package (editable)
-        run: pip install -e src
+        run: pip install -e .
       - name: Run tests
         run: pytest
       - name: Build executable (Linux only)
