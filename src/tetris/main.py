@@ -30,6 +30,7 @@ CELL_SIZE = 30
 BOARD_WIDTH = 10
 BOARD_HEIGHT = 20
 
+
 def main():
     """
     Main game loop for the graphical Tetris game.
@@ -37,7 +38,9 @@ def main():
     """
     pygame.init()
     info = pygame.display.Info()
-    screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode(
+        (info.current_w, info.current_h), pygame.FULLSCREEN
+    )
     pygame.display.set_caption("Tetris")
     clock = pygame.time.Clock()
     game = Game()
@@ -52,7 +55,7 @@ def main():
     side_delay = 2
     down_delay = 1
     base_auto_drop_delay = 25  # Initial delay (frames)
-    min_auto_drop_delay = 3    # Fastest possible
+    min_auto_drop_delay = 3  # Fastest possible
     auto_drop_delay = base_auto_drop_delay
     auto_drop_counter = 0
 
@@ -102,7 +105,9 @@ def main():
             auto_drop_counter = 0
 
         # Increase speed as level increases
-        auto_drop_delay = max(base_auto_drop_delay - (game.level - 1) * 4, min_auto_drop_delay)
+        auto_drop_delay = max(
+            base_auto_drop_delay - (game.level - 1) * 4, min_auto_drop_delay
+        )
 
         # Decrement flash timer for Tetris effect
         if game.flash_timer > 0:
@@ -115,6 +120,7 @@ def main():
 
     pygame.quit()
 
+
 def draw_board(screen, game, left_margin, TOP_MARGIN):
     """
     Draws the current game state: board, active tetromino, score, level, next pieces, and flash effect.
@@ -126,9 +132,9 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
         TOP_MARGIN: Pixels to offset the board from the top.
     """
     colors = {
-        0: (30, 30, 30),   # Empty
-        1: (100, 200, 255),# Placed
-        2: (255, 200, 100) # Active
+        0: (30, 30, 30),  # Empty
+        1: (100, 200, 255),  # Placed
+        2: (255, 200, 100),  # Active
     }
     screen.fill((0, 0, 0))
     display = [row[:] for row in game.board.board]
@@ -148,7 +154,12 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
             pygame.draw.rect(
                 screen,
                 colors[cell],
-                (left_margin + j * CELL_SIZE, TOP_MARGIN + i * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1)
+                (
+                    left_margin + j * CELL_SIZE,
+                    TOP_MARGIN + i * CELL_SIZE,
+                    CELL_SIZE - 1,
+                    CELL_SIZE - 1,
+                ),
             )
     # Draw score above the board
     font = pygame.font.SysFont(None, 28)
@@ -174,13 +185,19 @@ def draw_board(screen, game, left_margin, TOP_MARGIN):
                     pygame.draw.rect(
                         screen,
                         (200, 255, 200),
-                        (preview_x + j * CELL_SIZE, preview_y + idx * 4 * CELL_SIZE + i * CELL_SIZE, CELL_SIZE - 2, CELL_SIZE - 2)
+                        (
+                            preview_x + j * CELL_SIZE,
+                            preview_y + idx * 4 * CELL_SIZE + i * CELL_SIZE,
+                            CELL_SIZE - 2,
+                            CELL_SIZE - 2,
+                        ),
                     )
     # Flash effect for Tetris
     if getattr(game, "flash_timer", 0) > 0:
         overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         overlay.fill((255, 255, 0, 80))  # Yellow transparent overlay
         screen.blit(overlay, (0, 0))
+
 
 # Only run if this is the main script
 if __name__ == "__main__":
