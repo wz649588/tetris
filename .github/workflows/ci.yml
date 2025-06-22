@@ -22,8 +22,25 @@ jobs:
         run: pip install -e .
       - name: Run tests
         run: pytest
-      - name: Build executable (Linux only)
+      - name: Build executable (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           pip install pyinstaller
           pyinstaller --onefile src/tetris/main.py
+      - name: Build executable (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          pip install pyinstaller
+          pyinstaller --onefile src/tetris/main.py
+      - name: Upload executable artifact (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tetris-linux
+          path: dist/main
+      - name: Upload executable artifact (Windows)
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tetris-windows
+          path: dist/main.exe
