@@ -4,7 +4,7 @@ A classic Tetris game implemented in Python 3.12 using pygame, featuring:
 - Fullscreen graphical UI
 - Smooth keyboard controls
 - Score and level display
-- Next tetromino preview
+- Next two tetromino preview
 - Increasing speed with each level
 - Flash effect when clearing four lines (Tetris)
 - Game over detection
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 3. Run the game with:
 
 ```
-python src/main.py
+python -m tetris.main
 ```
 
 ## Controls
@@ -41,7 +41,7 @@ python src/main.py
 
 - Fullscreen mode with centered board and UI
 - Score and level shown at the top
-- Next tetromino preview on the right
+- Next two tetrominoes previewed on the right
 - Board flashes yellow when you clear four lines at once (Tetris)
 - Game speed increases as you level up
 
@@ -50,5 +50,9 @@ python src/main.py
 - The game window will open in fullscreen. Press `Q` to quit.
 - Designed for Python 3.12 and tested on Linux.
 - Sound effects can be added by placing a `tetris.wav` file in the `src` directory and updating the code to play it when a Tetris is cleared.
+- To run tests, use [pytest](https://pytest.org/):
+  ```
+  pytest
+  ```
 
 Enjoy playing Tetris!
