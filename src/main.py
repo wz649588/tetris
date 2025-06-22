@@ -20,8 +20,8 @@ def main():
 
     move_down_counter = 0
     move_side_counter = 0
-    side_delay = 3
-    down_delay = 2
+    side_delay = 2
+    down_delay = 1
     base_auto_drop_delay = 25  # Initial delay (frames)
     min_auto_drop_delay = 3    # Fastest possible
     auto_drop_delay = base_auto_drop_delay
