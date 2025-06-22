@@ -44,6 +44,7 @@ import random
 from tetris.tetromino import TETROMINO_SHAPES, Tetromino
 from tetris.board import Board
 
+
 class Game:
     def __init__(self):
         """
@@ -84,9 +85,13 @@ class Game:
                 if cell:
                     new_x = x + i
                     new_y = y + j
-                    if (new_x < 0 or new_x >= self.board.height or
-                        new_y < 0 or new_y >= self.board.width or
-                        self.board.board[new_x][new_y]):
+                    if (
+                        new_x < 0
+                        or new_x >= self.board.height
+                        or new_y < 0
+                        or new_y >= self.board.width
+                        or self.board.board[new_x][new_y]
+                    ):
                         self.is_running = False
                         print("Game Over!")
                         return
@@ -103,9 +108,13 @@ class Game:
                 if cell:
                     new_x = x + i + dx
                     new_y = y + j + dy
-                    if (new_x < 0 or new_x >= self.board.height or
-                        new_y < 0 or new_y >= self.board.width or
-                        self.board.board[new_x][new_y]):
+                    if (
+                        new_x < 0
+                        or new_x >= self.board.height
+                        or new_y < 0
+                        or new_y >= self.board.width
+                        or self.board.board[new_x][new_y]
+                    ):
                         return False
         return True
 

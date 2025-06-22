@@ -10,3 +10,6 @@ __pycache__/
 # Ignore PyInstaller build and dist folders
 build/
 dist/
+
+# Ignore virtual environments
+venv/
